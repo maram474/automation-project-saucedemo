@@ -1,0 +1,74 @@
+{
+  "url": "https://www.saucedemo.com/",
+
+  "login": {
+    "username": "standard_user",
+    "password": "secret_sauce"
+  },
+
+  "login_invalid": {
+    "username": "invalid_user",
+    "password": "wrong_password"
+  },
+
+  "login_no_username": {
+    "username": "",
+    "password": "secret_sauce"
+  },
+
+  "login_no_password": {
+    "username": "standard_user",
+    "password": ""
+  },
+
+  "error_messages": {
+    "invalid": "Epic sadface: Username and password do not match any user in this service",
+    "username_required": "Epic sadface: Username is required",
+    "password_required": "Epic sadface: Password is required"
+  },
+
+  "products": [
+    {
+      "name": "Sauce Labs Backpack",
+      "price": "$29.99",
+      "img_selector": ".inventory_item img",
+      "button_selector": "button.btn_primary",
+      "name_selector": ".inventory_item_name"
+    },
+    {
+      "name": "Sauce Labs Bike Light",
+      "price": "$9.99",
+      "img_selector": ".inventory_item img",
+      "button_selector": "button.btn_primary",
+      "name_selector": ".inventory_item_name"
+    },
+    {
+      "name": "Sauce Labs Bolt T-Shirt",
+      "price": "$15.99",
+      "img_selector": ".inventory_item img",
+      "button_selector": "button.btn_primary",
+      "name_selector": ".inventory_item_name"
+    },
+    {
+      "name": "Sauce Labs Fleece Jacket",
+      "price": "$49.99",
+      "img_selector": ".inventory_item img",
+      "button_selector": "button.btn_primary",
+      "name_selector": ".inventory_item_name"
+    },
+    {
+      "name": "Sauce Labs Onesie",
+      "price": "$7.99",
+      "img_selector": ".inventory_item img",
+      "button_selector": "button.btn_primary",
+      "name_selector": ".inventory_item_name"
+    },
+    {
+      "name": "Test.allTheThings() T-Shirt (Red)",
+      "price": "$15.99",
+      "img_selector": ".inventory_item img",
+      "button_selector": "button.btn_primary",
+      "name_selector": ".inventory_item_name"
+    }
+  ]
+}
