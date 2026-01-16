@@ -1,0 +1,47 @@
+{
+  "url": "https://www.saucedemo.com",
+  "url_inv":"https://www.saucedemo.com/inventory.html",
+  
+  "selectors": {
+    "login": {
+      "username": "#user-name",
+      "password": "#password",
+      "loginButton": "#login-button"
+    },
+    "products": {
+      "sortDropdown": "[data-test='product-sort-container']",
+      "inventoryItems": ".inventory_item",
+      "itemPrice": ".inventory_item_price",
+      "itemName": ".inventory_item_name"
+    }
+  },
+  
+  "credentials": {
+    "standardUser": "standard_user",
+    "password": "secret_sauce"
+  },
+  
+  "testCases": {
+    "TC1_VerifierFiltreDefaut": {
+      "id": "TC1",
+      "description": "Vérifier que le filtre par défaut est Name (A to Z)",
+      "expectedValue": "az",
+      "expectedText": "Name (A to Z)"
+    },
+    "TC2_TriPrixCroissant": {
+      "id": "TC2",
+      "description": "Trier par prix croissant et vérifier l'ordre",
+      "filterValue": "lohi",
+      "filterText": "Price (low to high)",
+      "orderType": "ascending",
+      "screenshotName": "prix-croissant.png"
+    },
+    "TC3_TriPrixDecroissant": {
+      "id": "TC3",
+      "description": "Trier par prix décroissant et vérifier premier/dernier",
+      "filterValue": "hilo",
+      "filterText": "Price (high to low)",
+      "orderType": "descending"
+    }
+  }
+}
