@@ -1,0 +1,35 @@
+# Dépendances
+node_modules/
+
+# Rapports de test
+playwright-report/
+allure-results/
+allure-report/
+test-results/
+
+# Screenshots de tests échoués
+screenshots/
+
+# Traces Playwright
+trace/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Variables d'environnement
+.env
+.env.local
