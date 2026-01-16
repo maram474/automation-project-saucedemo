@@ -1,0 +1,25 @@
+{
+  "name": "playwright-saucedemo-tests",
+  "version": "1.0.0",
+  "description": "Tests automatisés Playwright pour Saucedemo.com - Test Filtrage des produits",
+  "main": "index.js",
+  "scripts": {
+     "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "test:ui": "playwright test --ui"
+  },
+  "keywords": [ 
+    "playwright",
+    "automation",
+    "testing",
+    "saucedemo"],
+  "author": "ghadaaouini",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.6"
+  }
+}
