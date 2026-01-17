@@ -4,49 +4,49 @@ Projet d'automatisation complet pour SauceDemo avec 5 suites de tests utilisant 
 
 📁 Structure du Projet
     automation-project-saucedemo/
-    │
-    ├── playwright_tests/           # 🎭 Tests Playwright (Node.js)
-    │   ├── tests/
-    │   │   ├── data/
-    │   │   │   ├── commonData.json
-    │   │   │   ├── filterData.json
-    │   │   │   └── purchaseData.json
-    │   │   ├── helpers/
-    │   │   │   ├── authHelpers.js
-    │   │   │   ├── filterHelpers.js
-    │   │   │   └── purchaseHelpers.js
-    │   │   ├── e2e-filter.spec.js       # TEST 1
-    │   │   └── e2e-purchase.spec.js     # TEST 2
-    │   ├── package.json
-    │   └── playwright.config.js
-    │
-    ├── selenium_tests/             # 🐍 Tests Selenium Python
-    │   ├── tests/
-    │   │   ├── test_connection.py       # TEST 3
-    │   │   └── test_produits.py         # TEST 4
-    │   ├── data.json
-    │   └── requirements.txt
-    │
-    ├── robot_tests/                # 🤖 Tests Robot Framework
-    │   ├── tests/
-    │   │   ├── test_burger_full.robot   # TEST 5 (principal)
-    │   │   ├── test_logout.robot
-    │   │   ├── test_about_page.robot
-    │   │   ├── test_all_items_page.robot
-    │   │   ├── test_close_menu.robot
-    │   │   ├── test_menu_options.robot
-    │   │   └── test_reset_state.robot
-    │   ├── resources/
-    │   │   └── keywords.robot
-    │   ├── data/
-    │   │   ├── config.json
-    │   │   └── locators.json
-    │   └── requirements.txt
-    │
-    ├── .github/workflows/
-    │   └── ci.yml                  # Pipeline GitHub Actions
-    ├── Jenkinsfile                 # Pipeline Jenkins
-    └── README.md
+            │
+            ├── playwright_tests/           # 🎭 Tests Playwright (Node.js)
+            │   ├── tests/
+            │   │   ├── data/
+            │   │   │   ├── commonData.json
+            │   │   │   ├── filterData.json
+            │   │   │   └── purchaseData.json
+            │   │   ├── helpers/
+            │   │   │   ├── authHelpers.js
+            │   │   │   ├── filterHelpers.js
+            │   │   │   └── purchaseHelpers.js
+            │   │   ├── e2e-filter.spec.js       # TEST 1
+            │   │   └── e2e-purchase.spec.js     # TEST 2
+            │   ├── package.json
+            │   └── playwright.config.js
+            │
+            ├── selenium_tests/             # 🐍 Tests Selenium Python
+            │   ├── tests/
+            │   │   ├── test_connection.py       # TEST 3
+            │   │   └── test_produits.py         # TEST 4
+            │   ├── data.json
+            │   └── requirements.txt
+            │
+            ├── robot_tests/                # 🤖 Tests Robot Framework
+            │   ├── tests/
+            │   │   ├── test_burger_full.robot   # TEST 5 (principal)
+            │   │   ├── test_logout.robot
+            │   │   ├── test_about_page.robot
+            │   │   ├── test_all_items_page.robot
+            │   │   ├── test_close_menu.robot
+            │   │   ├── test_menu_options.robot
+            │   │   └── test_reset_state.robot
+            │   ├── resources/
+            │   │   └── keywords.robot
+            │   ├── data/
+            │   │   ├── config.json
+            │   │   └── locators.json
+            │   └── requirements.txt
+            │
+            ├── .github/workflows/
+            │   └── ci.yml                  # Pipeline GitHub Actions
+            ├── Jenkinsfile                 # Pipeline Jenkins
+            └── README.md
 
 🧪 Suites de Tests
 🎭 Playwright Tests (2 suites)
