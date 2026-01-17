@@ -1,0 +1,33 @@
+{
+  "name": "saucedemo-playwright-tests",
+  "version": "1.0.0",
+  "description": "Tests automatisés Playwright pour Saucedemo.com - Filtrage et Achat E2E",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:filter": "playwright test tests/e2e-filter.spec.js",
+    "test:purchase": "playwright test tests/e2e-purchase.spec.js",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "ci:allure:generate": "allure generate allure-results --clean -o allure-report",
+    "ci:allure:open": "allure open allure-report"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "testing",
+    "e2e",
+    "saucedemo"
+  ],
+  "author": "ghadaaouini",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.6",
+    "allure-commandline": "^2.27.0",
+    "allure-playwright": "^3.0.0"
+  }
+}

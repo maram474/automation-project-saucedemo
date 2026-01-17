@@ -1,0 +1,24 @@
+{
+  "url": "https://www.saucedemo.com",
+  "url_inventory": "https://www.saucedemo.com/inventory.html",
+
+  "credentials": {
+    "standardUser": "standard_user",
+    "password": "secret_sauce"
+  },
+
+  "selectors": {
+    "login": {
+      "username": "#user-name",
+      "password": "#password",
+      "loginButton": "#login-button"
+    },
+    "products": {
+      "inventoryContainer": "[data-test='inventory-container']",
+      "inventoryItems": ".inventory_item",
+      "itemName": ".inventory_item_name",
+      "itemPrice": ".inventory_item_price",
+      "sortDropdown": "[data-test='product-sort-container']"
+    }
+  }
+}

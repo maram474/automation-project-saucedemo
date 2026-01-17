@@ -1,0 +1,286 @@
+name: Complete Test Suite - Playwright, Selenium & Robot Framework
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  # ========================================
+  # JOB 1: PLAYWRIGHT FILTER TESTS
+  # ========================================
+  playwright-filter-tests:
+    name: Playwright - Product Filter Tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      working-directory: ./playwright_tests
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      working-directory: ./playwright_tests
+      run: npx playwright install --with-deps chromium
+
+    - name: Run Filter Tests
+      working-directory: ./playwright_tests
+      run: npm run test:filter
+
+    - name: Upload Playwright Filter Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-filter-report
+        path: playwright_tests/playwright-report/
+        retention-days: 30
+
+  # ========================================
+  # JOB 2: PLAYWRIGHT PURCHASE TESTS
+  # ========================================
+  playwright-purchase-tests:
+    name: Playwright - E2E Purchase Tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      working-directory: ./playwright_tests
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      working-directory: ./playwright_tests
+      run: npx playwright install --with-deps chromium
+
+    - name: Run Purchase Tests
+      working-directory: ./playwright_tests
+      run: npm run test:purchase
+
+    - name: Upload Playwright Purchase Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-purchase-report
+        path: playwright_tests/playwright-report/
+        retention-days: 30
+
+  # ========================================
+  # JOB 3: SELENIUM CONNECTION TESTS
+  # ========================================
+  selenium-connection-tests:
+    name: Selenium - Login Tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v1
+
+    - name: Install dependencies
+      working-directory: ./selenium_tests
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Connection Tests
+      working-directory: ./selenium_tests
+      run: pytest tests/test_connection.py --html=report-connection.html --self-contained-html -v
+
+    - name: Upload Selenium Connection Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: selenium-connection-report
+        path: selenium_tests/report-connection.html
+        retention-days: 30
+
+  # ========================================
+  # JOB 4: SELENIUM PRODUCTS TESTS
+  # ========================================
+  selenium-products-tests:
+    name: Selenium - Products Tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v1
+
+    - name: Install dependencies
+      working-directory: ./selenium_tests
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Products Tests
+      working-directory: ./selenium_tests
+      run: pytest tests/test_produits.py --html=report-products.html --self-contained-html -v
+
+    - name: Upload Selenium Products Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: selenium-products-report
+        path: selenium_tests/report-products.html
+        retention-days: 30
+
+  # ========================================
+  # JOB 5: ROBOT FRAMEWORK TESTS
+  # ========================================
+  robot-framework-tests:
+    name: Robot Framework - Burger Menu Tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v1
+
+    - name: Install dependencies
+      working-directory: ./robot_tests
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Robot Framework Tests
+      working-directory: ./robot_tests
+      run: robot --outputdir results tests/
+
+    - name: Upload Robot Framework Reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: robot-framework-reports
+        path: |
+          robot_tests/results/report.html
+          robot_tests/results/log.html
+          robot_tests/results/output.xml
+        retention-days: 30
+
+  # ========================================
+  # JOB 6: GENERATE ALLURE REPORT (CI ONLY)
+  # ========================================
+  generate-allure-report:
+    name: Generate Allure Report
+    needs: [playwright-filter-tests, playwright-purchase-tests]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Setup Java for Allure
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Install dependencies
+      working-directory: ./playwright_tests
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      working-directory: ./playwright_tests
+      run: npx playwright install --with-deps chromium
+
+    - name: Run ALL Playwright tests for Allure
+      working-directory: ./playwright_tests
+      run: npm test
+      continue-on-error: true
+
+    - name: Generate Allure Report
+      working-directory: ./playwright_tests
+      run: |
+        npm install allure-commandline --save-dev
+        npx allure generate allure-results --clean -o allure-report
+
+    - name: Upload Allure Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: allure-report
+        path: playwright_tests/allure-report/
+        retention-days: 30
+
+  # ========================================
+  # SUMMARY JOB
+  # ========================================
+  test-summary:
+    name: 📊 Test Execution Summary
+    needs:
+      - playwright-filter-tests
+      - playwright-purchase-tests
+      - selenium-connection-tests
+      - selenium-products-tests
+      - robot-framework-tests
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+    - name: Display Test Results
+      run: |
+        echo "## 📊 Test Execution Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Test Suite | Test Name | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|------------|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| 🎭 Playwright | Product Filter Tests | ${{ needs.playwright-filter-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🎭 Playwright | E2E Purchase Tests | ${{ needs.playwright-purchase-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🐍 Selenium | Login Tests | ${{ needs.selenium-connection-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🐍 Selenium | Products Tests | ${{ needs.selenium-products-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🤖 Robot Framework | Burger Menu Tests | ${{ needs.robot-framework-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📁 Artifacts Available:" >> $GITHUB_STEP_SUMMARY
+        echo "- Playwright Filter Report" >> $GITHUB_STEP_SUMMARY
+        echo "- Playwright Purchase Report" >> $GITHUB_STEP_SUMMARY
+        echo "- Selenium Connection Report" >> $GITHUB_STEP_SUMMARY
+        echo "- Selenium Products Report" >> $GITHUB_STEP_SUMMARY
+        echo "- Robot Framework Reports (report.html, log.html)" >> $GITHUB_STEP_SUMMARY
+        echo "- Allure Report (Playwright only)" >> $GITHUB_STEP_SUMMARY

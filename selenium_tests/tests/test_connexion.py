@@ -2,12 +2,12 @@ import json
 import pytest
 import os
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+
 
 # -----------------------------
 # Charger les données depuis JSON
@@ -16,8 +16,6 @@ data_path = os.path.join(os.path.dirname(__file__), "..", "data.json")
 with open(data_path, "r") as f:
     data = json.load(f)
 
-CHROME_PORTABLE_PATH = r'C:\chrome_Sources\chrome-win64\chrome.exe'
-CHROME_DRIVER_PATH = r'C:\chrome_Sources\chromedriver-win64\chromedriver.exe'
 
 # -----------------------------
 # Fixture pytest pour le driver
@@ -25,7 +23,15 @@ CHROME_DRIVER_PATH = r'C:\chrome_Sources\chromedriver-win64\chromedriver.exe'
 @pytest.fixture
 def driver():
     chrome_options = Options()
-    chrome_options.binary_location = CHROME_PORTABLE_PATH
+
+    # Headless moderne (recommandé)
+    chrome_options.add_argument("--headless=new")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1920,1080")
+
+    # Options originales
     chrome_options.add_argument("--incognito")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--no-default-browser-check")
@@ -36,11 +42,12 @@ def driver():
     }
     chrome_options.add_experimental_option("prefs", prefs)
 
-    service = Service(CHROME_DRIVER_PATH)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver.maximize_window()
+    # ✅ Selenium gère automatiquement ChromeDriver
+    driver = webdriver.Chrome(options=chrome_options)
+
     yield driver
     driver.quit()
+
 
 # -----------------------------
 # Fonctions utilitaires
